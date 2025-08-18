@@ -1,0 +1,40 @@
+Problem Statement:-
+
+U.S. airlines are experiencing significant delays, with over 88,000 flights cancelled out of 527,000 analyzed. The delays are primarily caused by carrier-related issues and weather disruptions, disproportionately affecting major airlines like Southwest and American Airlines. Additionally, delays are more frequent during evenings and on Fridays and Sundays, indicating systemic inefficiencies in scheduling and resource allocation.
+
+Recommendations:-
+
+1. Optimize Scheduling Algorithms
+
+Use machine learning to predict peak delay windows and adjust flight schedules accordingly.
+Prioritize early-day departures to reduce cascading delays.
+
+2. Improve Carrier Operations
+
+Invest in predictive maintenance and crew management systems to reduce carrier-related delays.
+Upgrade aging aircraft fleets (average age: 14 years) to improve reliability.
+
+3. Weather-Responsive Planning
+
+Integrate real-time weather analytics into routing and scheduling.
+Develop contingency protocols for high-risk weather zones and seasons.
+
+4. Passenger-Centric Communication
+
+Enhance delay notifications and rebooking systems to reduce passenger frustration.
+Offer incentives or flexible options during high-delay periods (e.g., weekends).
+
+
+
+Summary 
+
+U.S. Airline Delays Overview This infographic presents key statistics and visualizations related to airline delays in the U.S.:
+
+Scope: Covers data from 15 airlines, 325 airports, and 527,000 flights.
+Cancellations: 88,000 flights were cancelled.
+Average Delay: 14 minutes per flight.
+Airlines Featured: Alaska Airlines Inc. and Allegiant Air.
+Delay Causes: Pie chart shows delays due to carrier issues, weather, NAS (National Aviation System), security, and late aircraft.
+Airlines Affected: Bar chart highlights Southwest Airlines and American Airlines as most affected.
+Delay by Day: Line chart shows delays peak midweek (Wednesday–Thursday).
+Weekly Distribution: Delays are more frequent during midweek, especially on Thursday.

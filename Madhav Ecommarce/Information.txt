@@ -1,0 +1,42 @@
+Problem Statement:-
+Despite achieving strong overall sales and high average order value, Madhav Ecommerce faces regional imbalance, product concentration, and seasonal profit volatility. 
+
+Key challenges include:-
+
+Underperformance in states like Delhi and Gujarat.
+Heavy reliance on clothing as the primary product category.
+Cash on Delivery (COD) dominating payment methods, which may increase operational risk.
+Profit dips in months like April and June, indicating poor seasonal planning.
+
+Proposed Solution :- 
+1. Regional Sales Optimization
+
+Launch localized marketing campaigns in Delhi and Gujarat.
+Offer region-specific discounts or bundles to attract new customers.
+Partner with local influencers or delivery services to improve reach and trust.
+
+2. Product Diversification
+
+Expand profitable sub-categories like printers, bookcases, and storage.
+Introduce seasonal collections or limited-time categories to test demand.
+Use customer purchase history to recommend cross-category products.
+
+3. Payment Strategy Enhancement
+
+Incentivize UPI and digital payments with cashback or loyalty points.
+Gradually reduce COD dependency to streamline logistics and reduce returns.
+
+4. Seasonal Profit Planning
+
+Run targeted promotions in April and June to boost engagement.
+Align inventory and ad spend with peak months like January and March.
+
+
+
+Summary
+
+Strong revenue and AOV driven by clothing and key customers.
+Maharashtra leads in sales; Delhi and Gujarat underperform.
+COD dominates payments; UPI is rising.
+January and March are peak profit months.
+Printers and bookcases are top profit generators.
