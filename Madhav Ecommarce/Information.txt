@@ -1,3 +1,10 @@
+Summary
+
+Strong revenue and AOV driven by clothing and key customers. Maharashtra leads in sales; Delhi and Gujarat underperform. COD dominates payments; UPI is rising. January and March are peak profit months. Printers and bookcases are top profit generators.
+
+
+
+
 Problem Statement:-
 Despite achieving strong overall sales and high average order value, Madhav Ecommerce faces regional imbalance, product concentration, and seasonal profit volatility. 
 
@@ -30,13 +37,3 @@ Gradually reduce COD dependency to streamline logistics and reduce returns.
 
 Run targeted promotions in April and June to boost engagement.
 Align inventory and ad spend with peak months like January and March.
-
-
-
-Summary
-
-Strong revenue and AOV driven by clothing and key customers.
-Maharashtra leads in sales; Delhi and Gujarat underperform.
-COD dominates payments; UPI is rising.
-January and March are peak profit months.
-Printers and bookcases are top profit generators.
