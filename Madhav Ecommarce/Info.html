@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Madhav Ecommerce - Advanced Analysis</title>
+    <title>Madhav Ecommerce - Interactive Analysis</title>
     <style>
         /* --- Global Styles & Animated Background --- */
         @keyframes gradientBG {
@@ -16,7 +16,8 @@
             --color-primary: #60a5fa; /* Light Blue */
             --color-danger: #f87171;  /* Red */
             --color-success: #4ade80; /* Green */
-            --color-bg: #0f172a;       /* Dark Blue/Slate */
+            --color-secondary: #f59e0b; /* Amber */
+            --color-bg: #0f172a;      /* Dark Blue/Slate */
             --color-bg-light: #1e293b; /* Lighter Slate */
             --color-text: #e2e8f0;     /* Light Gray */
             --color-text-muted: #94a3b8; /* Muted Gray */
@@ -37,12 +38,64 @@
             background-color: var(--color-bg);
             background: linear-gradient(-45deg, #0f172a, #131b31, #0f172a, #1e293b);
             background-size: 400% 400%;
-            animation: gradientBG 20s ease infinite;
+            animation: gradientBG 25s ease infinite;
             color: var(--color-text);
             line-height: 1.7;
         }
 
-        /* --- Header & Glassmorphism "Illusion" --- */
+        /* --- Floating Link Button --- */
+        .floating-link-btn {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            z-index: 1001; /* Above sticky header */
+            width: 60px;
+            height: 60px;
+            background: var(--color-success);
+            color: var(--color-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(74, 222, 128, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .floating-link-btn:hover {
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4);
+        }
+
+        .floating-link-btn .tooltip-text {
+            visibility: hidden;
+            width: 180px;
+            background-color: var(--color-bg-light);
+            color: var(--color-text);
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 1;
+            top: 50%;
+            right: 120%; /* Position to the left of the button */
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .floating-link-btn:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* --- End Floating Button --- */
+
+
+        /* --- Header & Glassmorphism --- */
         header {
             position: sticky;
             top: 0;
@@ -51,17 +104,17 @@
             text-align: center;
             z-index: 1000;
             
-            /* The Glassmorphism Effect */
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
             font-size: 2.5rem;
             color: #fff;
-            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+            text-shadow: 0 0 15px rgba(96, 165, 250, 0.4);
         }
 
         /* --- Main Content Container --- */
@@ -72,7 +125,7 @@
         }
 
         section {
-            padding: 80px 0;
+            padding: 60px 0;
             border-bottom: 1px solid var(--color-bg-light);
         }
 
@@ -102,14 +155,17 @@
         /* --- Hero Section (Summary & Dashboard) --- */
         #hero {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
             align-items: center;
-            gap: 40px;
+            gap: 50px;
         }
         
         .hero-summary {
             font-size: 1.1rem;
             color: var(--color-text-muted);
+        }
+        .hero-summary p {
+            margin-top: 15px;
         }
 
         .dashboard-container {
@@ -120,19 +176,19 @@
             width: 100%;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--color-bg-light);
+            border: 1px solid #334155;
             transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+            cursor: pointer; /* Add pointer to show it's clickable */
         }
         
-        /* 3D Tilt "Illusion" on Hover */
         .dashboard-img:hover {
             transform: scale(1.05) rotateX(5deg) rotateY(-5deg);
-            box-shadow: 0 20px 40px rgba(96, 165, 250, 0.2);
+            box-shadow: 0 25px 50px -10px rgba(96, 165, 250, 0.25);
         }
 
         /* --- Problem Statement Section --- */
         .problem-box {
-            background: rgba(248, 113, 113, 0.05); /* Red tint */
+            background: rgba(248, 113, 113, 0.05);
             border: 1px solid var(--color-danger);
             border-left: 5px solid var(--color-danger);
             padding: 30px;
@@ -143,7 +199,7 @@
             margin-top: 0;
         }
         .problem-box ul {
-            list-style-type: '❌ '; /* Creative list bullet */
+            list-style-type: '❌ ';
             padding-left: 30px;
         }
 
@@ -160,25 +216,101 @@
             border-radius: 12px;
             border: 1px solid #334155;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            
-            /* Card "Pop" Illusion on Hover */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
         
         .solution-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 10px 25px rgba(96, 165, 250, 0.15);
+            border-color: var(--color-primary);
         }
 
         .solution-card h3 {
             color: var(--color-success);
         }
         .solution-card ol {
-            list-style-type: '✅ '; /* Creative list bullet */
+            list-style-type: '✅ ';
             padding-left: 30px;
         }
 
+        /* --- Data Dictionary (Accordion) --- */
+        details {
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden; /* Clean edges */
+        }
+
+        summary {
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--color-bg-light);
+            border: 1px solid #334155;
+            transition: background 0.3s ease;
+        }
+        summary:hover {
+            background: #293548; /* Slightly lighter */
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.8rem;
+            transition: transform 0.2s;
+            color: var(--color-primary);
+        }
+
+        details[open] summary {
+            color: var(--color-primary);
+            background: #293548;
+        }
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .dictionary-content {
+            padding: 20px;
+            overflow-x: auto;
+            background: rgba(15, 23, 42, 0.5); /* Darker, slightly transparent */
+            border: 1px solid #334155;
+            border-top: none;
+        }
+
+        .dictionary-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .dictionary-content th,
+        .dictionary-content td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #334155;
+            text-align: left;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+        }
+        .dictionary-content th {
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+        .dictionary-content td:first-child {
+            font-weight: 400;
+            color: var(--color-text);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        /* --- End Data Dictionary --- */
+
+
         /* --- Data Download Section --- */
+        #data p {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            margin-bottom: 30px;
+        }
         .data-links {
             display: flex;
             justify-content: center;
@@ -187,21 +319,34 @@
         }
         
         .data-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #fff;
             background: var(--color-primary);
-            padding: 15px 30px;
-            border-radius: 50px; /* Pill shape */
+            padding: 12px 24px;
+            border-radius: 50px;
             transition: all 0.3s ease;
         }
         
         .data-link:hover {
-            background: #3b82f6; /* Darker blue */
+            background: #3b82f6;
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        .data-link-pbix {
+            background: var(--color-secondary);
+            font-size: 1.1rem;
+            padding: 14px 28px;
+            color: var(--color-bg);
+        }
+        .data-link-pbix:hover {
+            background: #d97706;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3);
         }
         
         /* --- Footer --- */
@@ -213,8 +358,6 @@
         }
         
         /* --- Animation "Illusion" for Scroll --- */
-        
-        /* Class to hide elements before they scroll into view */
         .hidden {
             opacity: 0;
             filter: blur(5px);
@@ -222,20 +365,62 @@
             transition: opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out;
         }
         
-        /* Class to show elements when they are in view */
         .show {
             opacity: 1;
             filter: blur(0);
             transform: translateY(0);
         }
         
-        /* Staggered animation for card children */
-        .solution-card.show {
-            transition-delay: 100ms;
+        .solution-card.show { transition-delay: 100ms; }
+        .solution-card:nth-child(even).show { transition-delay: 200ms; }
+
+        /* --- Image Modal (Lightbox) Styles --- */
+        #imageModal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
         }
-        .solution-card:nth-child(even).show {
-            transition-delay: 200ms;
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: auto;
+            max-width: 90%;
+            max-height: 90vh;
+            animation-name: zoomIn;
+            animation-duration: 0.3s;
         }
+
+        @keyframes zoomIn {
+            from {transform: scale(0)}
+            to {transform: scale(1)}
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #bbb;
+            text-decoration: none;
+        }
+        /* --- End of Modal Styles --- */
+
 
         /* --- Responsive Design --- */
         @media (max-width: 900px) {
@@ -243,8 +428,18 @@
                 grid-template-columns: 1fr;
             }
             .dashboard-img:hover {
-                /* Simplify animation for mobile */
                 transform: scale(1.02);
+            }
+            .floating-link-btn {
+                top: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            .floating-link-btn:hover .tooltip-text {
+                visibility: hidden;
+                opacity: 0;
             }
         }
         
@@ -256,114 +451,199 @@
                 grid-template-columns: 1fr;
             }
         }
-
     </style>
 </head>
 <body>
 
+    <a href="https://raw.githack.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Info.html" class="floating-link-btn" target="_blank" title="View US Flights Analysis">
+        ✈️
+        <span class="tooltip-text">View US Flights Analysis</span>
+    </a>
+
     <header>
-        <h1>Madhav Ecommerce Analysis</h1>
+        <h1>Madhav Ecommerce: Interactive Analysis</h1>
     </header>
 
     <div class="container">
         
         <section id="hero">
-            <div class="hero-summary hidden"> <h2>Executive Summary</h2>
+            <div class="hero-summary hidden">
+                <h2>📊 Executive Summary</h2>
                 <p>
-                    Strong revenue and AOV driven by clothing and key customers. Maharashtra leads in sales; Delhi and Gujarat underperform. COD dominates payments; UPI is rising. January and March are peak profit months. Printers and bookcases are top profit generators.
+                    This report details the analysis of the Madhav Ecommerce dataset, visualized in the accompanying Power BI dashboard.
+                </p>
+                <p>
+                    The analysis reveals strong revenue and AOV, driven primarily by clothing and key customers in Maharashtra. However, it also identified significant underperformance in Delhi and Gujarat, heavy reliance on COD payments, and seasonal profit volatility.
                 </p>
             </div>
-            <div class="dashboard-container hidden"> <img src="Dashboard.png" alt="Madhav Ecommerce Sales Dashboard" class="dashboard-img">
+            <div class="dashboard-container hidden">
+                <img src="https://github.com/RudraX-Github/Visualization-Power-BI-/raw/main/Madhav%20Ecommarce/Dashboard.png" alt="Madhav Ecommerce Sales Dashboard" class="dashboard-img" id="dashboardTrigger">
             </div>
         </section>
 
         <section id="problem">
-            <div class="problem-box hidden"> <h2>Problem Statement</h2>
+            <div class="problem-box hidden">
+                <h2>⚠️ Problem Statement</h2>
                 <p>
-                    Despite achieving strong overall sales and high average order value, Madhav Ecommerce faces regional imbalance, product concentration, and seasonal profit volatility.
-                </p>
-                <h3>Key Challenges Include:</h3>
+                    Despite strong overall sales, this analysis identifies key areas for improvement. The business faces regional imbalances, product concentration, and seasonal profit dips that present risks to sustainable growth.
+                </s >
+                <h3>Key Challenges Identified:</h3>
                 <ul>
-                    <li>Underperformance in states like Delhi and Gujarat.</li>
+                    <li>Underperformance in high-potential states like Delhi and Gujarat.</li>
                     <li>Heavy reliance on clothing as the primary product category.</li>
-                    <li>Cash on Delivery (COD) dominating payment methods, which may increase operational risk.</li>
-                    <li>Profit dips in months like April and June, indicating poor seasonal planning.</li>
+                    <li>Cash on Delivery (COD) dominating payment methods, which increases operational risk and costs.</li>
+                    <li>Significant profit dips in months like April and June, indicating poor seasonal planning.</li>
                 </ul>
             </div>
         </section>
 
         <section id="solutions">
-            <h2>Proposed Solutions</h2>
+            <h2>💡 Proposed Solutions</h2>
             <div class="solutions-grid">
                 
-                <div class="solution-card hidden"> <h3>1. Regional Sales Optimization</h3>
+                <div class="solution-card hidden">
+                    <h3>1. Regional Sales Optimization</h3>
                     <ol>
-                        <li>Launch localized marketing campaigns in Delhi and Gujarat.</li>
+                        <li>Launch localized, data-driven marketing campaigns in Delhi and Gujarat.</li>
                         <li>Offer region-specific discounts or bundles to attract new customers.</li>
-                        <li>Partner with local influencers or delivery services to improve reach and trust.</li>
+                        <li>Partner with local influencers to build trust and improve market penetration.</li>
                     </ol>
                 </div>
                 
-                <div class="solution-card hidden"> <h3>2. Product Diversification</h3>
+                <div class="solution-card hidden">
+                    <h3>2. Product Diversification</h3>
                     <ol>
-                        <li>Expand profitable sub-categories like printers, bookcases, and storage.</li>
-                        <li>Introduce seasonal collections or limited-time categories to test demand.</li>
-                        <li>Use customer purchase history to recommend cross-category products.</li>
+                        <li>Expand and promote profitable sub-categories: printers, bookcases, and storage.</li>
+                        <li>Introduce seasonal collections to test demand and create urgency.</li>
+                        <li>Implement a cross-selling strategy based on customer purchase history.</li>
                     </ol>
                 </div>
 
-                <div class="solution-card hidden"> <h3>3. Payment Strategy Enhancement</h3>
+                <div class="solution-card hidden">
+                    <h3>3. Payment Strategy Enhancement</h3>
                     <ol>
-                        <li>Incentivize UPI and digital payments with cashback or loyalty points.</li>
-                        <li>Gradually reduce COD dependency to streamline logistics and reduce returns.</li>
+                        <li>Aggressively incentivize UPI and digital payments with small cashback or loyalty points.</li>
+                        <li>Gradually reduce COD availability for high-return categories to cut logistical overhead.</li>
                     </ol>
                 </div>
                 
-                <div class="solution-card hidden"> <h3>4. Seasonal Profit Planning</h3>
+                <div class="solution-card hidden">
+                    <h3>4. Seasonal Profit Planning</h3>
                     <ol>
-                        <li>Run targeted promotions in April and June to boost engagement.</li>
-                        <li>Align inventory and ad spend with peak months like January and March.</li>
+                        <li>Run targeted promotions (e.g., "Summer Sale") in April and June to boost off-season engagement.</li>
+                        <li>Realign inventory and ad spend to capitalize on peak profit months like January and March.</li>
                     </ol>
                 </div>
 
             </div>
         </section>
+
+        <section id="data-dictionary" class="hidden">
+            <h2>Data Dictionary</h2>
+    
+            <details>
+                <summary>Orders.csv</summary>
+                <div class="dictionary-content">
+                    <table>
+                        <thead><tr><th>Column</th><th>Description</th></tr></thead>
+                        <tbody>
+                            <tr><td>Order ID</td><td>The unique identifier for each order.</td></tr>
+                            <tr><td>Order Date</td><td>The date the order was placed.</td></tr>
+                            <tr><td>CustomerName</td><td>The name of the customer.</td></tr>
+                            <tr><td>State</td><td>The state to which the order was shipped.</td></tr>
+                            <tr><td>City</td><td>The city to which the order was shipped.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+    
+            <details>
+                <summary>Details.csv</summary>
+                <div class="dictionary-content">
+                    <table>
+                        <thead><tr><th>Column</th><th>Description</th></tr></thead>
+                        <tbody>
+                            <tr><td>Order ID</td><td>A foreign key linking to the Order ID in Orders.csv.</td></tr>
+                            <tr><td>Amount</td><td>The total sale amount for the item.</td></tr>
+                            <tr><td>Profit</td><td>The profit earned from the item.</td></tr>
+                            <tr><td>Quantity</td><td>The number of units of the item sold.</td></tr>
+                            <tr><td>Category</td><td>The main product category (e.g., Clothing).</td></tr>
+                            <tr><td>Sub-Category</td><td>The specific product sub-category (e.g., Shirt).</td></tr>
+                            <tr><td>PaymentMode</td><td>The method used for payment (e.g., COD, UPI).</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+        </section>
         
-        <section id="data" class="hidden"> <h2>Data Sources</h2>
+        <section id="data" class="hidden">
+            <h2>Project Files & Dashboard</h2>
+            <p>Download the interactive Power BI dashboard and the raw data files used for this analysis.</p>
             <div class="data-links">
-                <a href="Orders.csv" class="data-link" download>Download Orders.csv</a>
-                <a href="Details.csv" class="data-link" download>Download Details.csv</a>
+                <a href="https://github.com/RudraX-Github/Visualization-Power-BI-/raw/refs/heads/main/Madhav%20Ecommarce/Madhav%20Ecommerce%20Dashboard.pbix" class="data-link data-link-pbix" download>
+                    📊 Download Power BI Dashboard (.pbix)
+                </a>
+                
+                <a href="https://github.com/RudraX-Github/Visualization-Power-BI-/raw/main/Madhav%20Ecommarce/Data%20files/Orders.csv" class="data-link" download>
+                    📄 Download Orders.csv
+                </a>
+                <a href="https://github.com/RudraX-Github/Visualization-Power-BI-/raw/main/Madhav%20Ecommarce/Data%20files/Details.csv" class="data-link" download>
+                    📄 Download Details.csv
+                </a>
             </div>
         </section>
 
     </div>
 
     <footer>
-        <p>&copy; 2025 Madhav Ecommerce. Advanced Analysis Report.</p>
+        <p>&copy; 2025 Madhav Ecommerce. Interactive Analysis Report.</p>
     </footer>
 
-    <script>
-        // Select all elements with the class "hidden"
-        const hiddenElements = document.querySelectorAll('.hidden');
+    <div id="imageModal" class="modal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
 
-        // Set up the Intersection Observer
+
+    <script>
+        // --- Image Modal JavaScript ---
+        
+        var modal = document.getElementById("imageModal");
+        var img = document.getElementById("dashboardTrigger");
+        var modalImg = document.getElementById("modalImage");
+        var span = document.getElementById("closeModal");
+
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        // --- End of Image Modal JavaScript ---
+
+
+        // --- Scroll Animation JavaScript ---
+        const hiddenElements = document.querySelectorAll('.hidden');
+        
+        // *** THIS WAS THE FIX: new.IntersectionObserver -> new IntersectionObserver ***
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                // If the element is intersecting (in view)
                 if (entry.isIntersecting) {
-                    // Add the "show" class to trigger the animation
                     entry.target.classList.add('show');
                 } 
-                // Optional: To make it re-animate every time you scroll by
-                // else {
-                //     entry.target.classList.remove('show');
-                // }
             });
         }, {
             threshold: 0.15 // Trigger when 15% of the element is visible
         });
 
-        // Tell the observer to watch each of the "hidden" elements
         hiddenElements.forEach((el) => observer.observe(el));
     </script>
 
