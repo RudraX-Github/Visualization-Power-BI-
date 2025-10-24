@@ -633,7 +633,6 @@
         // --- Scroll Animation JavaScript ---
         const hiddenElements = document.querySelectorAll('.hidden');
         
-        // *** THIS WAS THE FIX: new.IntersectionObserver -> new IntersectionObserver ***
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
