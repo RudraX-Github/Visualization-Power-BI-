@@ -3,30 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>U.S. Airline Delay Analysis - Blueprint Edition</title>
+    <title>U.S. Airline Delay Analysis - My Report</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
     <style>
         /* --- Animation Keyframes --- */
-        @keyframes gradientBG {
+        @keyframes auroraBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes glowBorder {
-            0% { box-shadow: 0 2px 10px rgba(0, 229, 255, 0.3); }
-            50% { box-shadow: 0 2px 25px rgba(0, 229, 255, 0.7); }
-            100% { box-shadow: 0 2px 10px rgba(0, 229, 255, 0.3); }
+        @keyframes shine {
+            0% { left: -100px; }
+            100% { left: 100%; }
         }
 
-        /* --- Root Variables: "Blueprint" Theme --- */
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* --- Root Variables: "Aurora" Theme --- */
         :root {
-            --color-primary: #00e5ff; /* Electric Blue */
-            --color-danger: #ff4d4d;  /* Bright Red */
-            --color-bg: #0a192f;       /* Deep Navy */
-            --color-bg-light: #172a45; /* Lighter Navy/Blueprint */
-            --color-text: #e6f1ff;     /* Off-white */
-            --color-text-muted: #a8b2d1; /* Muted Text */
-            --blueprint-grid: #172a45; /* Grid line color */
+            --color-primary: #38bdf8; /* Sky Blue */
+            --color-secondary: #a78bfa; /* Violet */
+            --color-success: #4ade80;  /* Green */
+            --color-danger: #f87171;  /* Red */
+            --color-bg: #000010;       /* Deep Space */
+            --color-bg-light: #111827; /* Lighter Space */
+            --color-glass: rgba(255, 255, 255, 0.05); /* Glass Background */
+            --color-glass-border: rgba(255, 255, 255, 0.1);
+            --color-text: #e2e8f0;     /* Light Gray */
+            --color-text-muted: #94a3b8; /* Muted Gray */
         }
 
         * {
@@ -40,19 +52,18 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: var(--color-text);
             line-height: 1.7;
-            
-            /* Blueprint Grid Background Illusion */
+
+            /* Animated "Aurora" Background Illusion */
             background-color: var(--color-bg);
-            background-image: 
-                linear-gradient(var(--blueprint-grid) 1px, transparent 1px), 
-                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background: linear-gradient(125deg, #000010, #111827, #0d3b66, #000010, #250541);
+            background-size: 400% 400%;
+            animation: auroraBG 30s ease infinite;
         }
 
-        /* --- Header & Glassmorphism + Glow --- */
+        /* --- Header & Glassmorphism --- */
         header {
             position: sticky;
             top: 0;
@@ -60,19 +71,21 @@
             padding: 20px 0;
             text-align: center;
             z-index: 1000;
-            
-            background: rgba(10, 25, 47, 0.8); /* Darker glass */
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            
-            border-bottom: 1px solid var(--color-primary);
-            animation: glowBorder 3s linear infinite;
+
+            background: rgba(10, 10, 20, 0.7); /* Darker glass */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            border-bottom: 1px solid var(--color-glass-border);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         h1 {
             font-size: 2.5rem;
-            color: var(--color-primary);
-            text-shadow: 0 0 15px rgba(0, 229, 255, 0.7);
+            font-weight: 700;
+            color: #fff;
+            /* Multi-color shadow for creative text */
+            text-shadow: 0 0 5px var(--color-primary), 0 0 10px var(--color-primary), 0 0 20px var(--color-secondary);
         }
 
         /* --- Main Content Container --- */
@@ -84,18 +97,14 @@
 
         section {
             padding: 80px 0;
-            border-bottom: 1px dashed var(--color-bg-light); /* Dashed border for blueprint feel */
-        }
-        section:last-of-type {
-            border-bottom: none;
         }
 
         h2 {
-            font-size: 2.2rem;
-            color: var(--color-primary);
-            text-align: center;
-            margin-bottom: 40px;
+            font-size: 2.3rem;
+            color: #fff;
             font-weight: 600;
+            text-align: center;
+            margin-bottom: 50px;
         }
 
         h3 {
@@ -103,16 +112,46 @@
             margin-bottom: 15px;
             color: var(--color-text);
         }
-        
+
         ul, ol {
             padding-left: 25px;
         }
         li {
             margin-bottom: 10px;
             color: var(--color-text-muted);
+            font-weight: 300;
         }
-        li b {
+        /* Bolding is now done with <strong> or <b> */
+        strong, b {
             color: var(--color-text);
+            font-weight: 600;
+        }
+
+        /* Links styling */
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--color-secondary);
+            text-decoration: underline;
+        }
+
+
+        /* --- Glassmorphism Card Style --- */
+        .glass-card {
+            background: var(--color-glass);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }
 
         /* --- Hero Section (Summary & Main Dashboard) --- */
@@ -122,10 +161,9 @@
             align-items: center;
             gap: 40px;
         }
-        
+
         .hero-summary {
-            font-size: 1.1rem;
-            color: var(--color-text-muted);
+            padding: 30px;
         }
         .hero-summary ul {
             list-style: '✈️ ';
@@ -135,19 +173,18 @@
         .dashboard-container {
             perspective: 1000px;
         }
-        
+
         .dashboard-img-main {
             width: 100%;
             border-radius: 12px;
-            border: 2px solid var(--color-bg-light);
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+            border: 1px solid var(--color-glass-border);
+            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+            cursor: pointer;
         }
-        
-        /* "Glow" Hover Illusion */
+
         .dashboard-img-main:hover {
-            transform: scale(1.03);
-            border-color: var(--color-primary);
-            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5), 0 0 10px rgba(0, 229, 255, 0.3);
+            transform: scale(1.03) rotateX(3deg) rotateY(-3deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.3);
         }
 
         /* --- Detailed Dashboards Gallery --- */
@@ -159,13 +196,13 @@
         .dashboard-item {
             border-radius: 10px;
             overflow: hidden;
-            border: 2px solid var(--color-bg-light);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--color-glass-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
         .dashboard-item:hover {
             transform: translateY(-8px);
-            border-color: var(--color-primary);
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
         }
         .dashboard-item img {
             width: 100%;
@@ -173,20 +210,25 @@
             display: block;
         }
 
+        /* --- Power BI Link Section --- */
+        #powerbi-link {
+            text-align: center;
+             /* Removed top padding to sit closer to gallery */
+            padding-bottom: 80px;
+        }
+
         /* --- Problem Statement Section --- */
         .problem-box {
-            background: rgba(255, 77, 77, 0.05); /* Red tint */
-            border: 1px solid var(--color-danger);
-            border-left: 5px solid var(--color-danger);
             padding: 30px;
-            border-radius: 10px;
+            border-left: 5px solid var(--color-danger);
+            /* Use glass style but with a red tint */
+            background: rgba(248, 113, 113, 0.05);
+            border: 1px solid rgba(248, 113, 113, 0.2);
             font-size: 1.1rem;
-            /* Inset shadow illusion */
-            box-shadow: inset 0 0 15px rgba(255, 77, 77, 0.15);
         }
         .problem-box h2 {
             color: var(--color-danger);
-            text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+            text-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
             text-align: left;
             margin-bottom: 20px;
         }
@@ -197,42 +239,58 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 30px;
         }
-        
-        .recommendation-card {
-            background: var(--color-bg-light);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #304a6e;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .recommendation-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 229, 255, 0.4);
-        }
 
+        .recommendation-card {
+            padding: 30px;
+        }
         .recommendation-card h3 {
             color: var(--color-primary);
-            text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
         }
         .recommendation-card ol {
             list-style-type: '💡 ';
             padding-left: 30px;
         }
 
+        /* --- Projected Improvements Section --- */
+        .projection-card {
+            padding: 30px;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--color-success);
+            background: rgba(74, 222, 128, 0.05);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        .projection-card h3 {
+            color: var(--color-success);
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+        .projection-card p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .projection-card ol { /* Changed to ordered list */
+            list-style: none;
+            padding-left: 0;
+        }
+        .projection-card li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 15px;
+        }
+        .projection-card li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.2rem;
+        }
+
         /* --- Data Dictionary (Accordion) --- */
         details {
-            background: var(--color-bg-light);
             margin-bottom: 12px;
             border-radius: 8px;
-            border: 1px solid #304a6e;
-            transition: all 0.3s ease;
+            overflow: hidden; /* Clean edges */
         }
-        details:hover {
-            border-color: var(--color-primary);
-        }
-        
+
         summary {
             padding: 20px;
             font-weight: 600;
@@ -242,48 +300,56 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: var(--color-glass);
+            border: 1px solid var(--color-glass-border);
+            transition: background 0.3s ease;
         }
-        
+        summary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
         summary::after {
             content: '+';
             font-size: 1.8rem;
             transition: transform 0.2s;
             color: var(--color-primary);
         }
-        
+
         details[open] summary {
             color: var(--color-primary);
+            background: rgba(255, 255, 255, 0.08);
         }
         details[open] summary::after {
             transform: rotate(45deg);
         }
-        details[open] {
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-        }
-        
+
         .dictionary-content {
-            padding: 0 20px 20px 20px;
-            overflow-x: auto; /* For responsive tables */
+            padding: 20px;
+            overflow-x: auto;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-glass-border);
+            border-top: none;
         }
-        
+
         .dictionary-content table {
             width: 100%;
             border-collapse: collapse;
         }
-        .dictionary-content th, 
+        .dictionary-content th,
         .dictionary-content td {
             padding: 12px 15px;
-            border: 1px solid #304a6e;
+            border-bottom: 1px solid var(--color-glass-border);
             text-align: left;
             font-size: 0.95rem;
+            font-weight: 300;
             color: var(--color-text-muted);
         }
         .dictionary-content th {
-            background-color: #0a192f;
             color: var(--color-primary);
+            font-weight: 600;
         }
         .dictionary-content td:first-child {
-            font-weight: 600;
+            font-weight: 400;
             color: var(--color-text);
             font-family: 'Courier New', Courier, monospace;
         }
@@ -294,38 +360,64 @@
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
+            margin-bottom: 30px; /* Space before source note */
         }
-        
-        /* "Ghost Button" Illusion */
+
+        /* --- NEW: Data Source Note --- */
+        .data-source-note {
+            text-align: center;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+
+        /* "Shine" Button Illusion */
         .data-link {
             display: inline-block;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            color: var(--color-primary);
-            background: transparent;
-            border: 2px solid var(--color-primary);
+            color: #fff;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
             padding: 15px 30px;
             border-radius: 50px; /* Pill shape */
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        
+
+        .data-link::before { /* The shine element */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100px;
+            width: 70px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: skewX(-30deg);
+            transition: left 0.5s ease;
+        }
+
         .data-link:hover {
-            background: var(--color-primary);
-            color: var(--color-bg);
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
         }
-        
+        .data-link:hover::before {
+            animation: shine 0.7s 1;
+        }
+
         /* --- Footer --- */
         footer {
             text-align: center;
             padding: 40px 0;
             font-size: 0.9rem;
+            font-weight: 300;
             color: var(--color-text-muted);
-            border-top: 1px dashed var(--color-bg-light);
+            border-top: 1px solid var(--color-glass-border);
         }
-        
+
         /* --- Animation "Illusion" for Scroll --- */
         .hidden {
             opacity: 0;
@@ -339,17 +431,128 @@
             transform: translateY(0);
         }
 
+        /* --- NEW: Modal Styles --- */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--color-bg-light);
+            margin: 3% auto; /* Less top margin */
+            padding: 30px;
+            border: 1px solid var(--color-primary);
+            width: 90%;
+            max-width: 900px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+            animation: fadeInModal 0.4s ease-out;
+        }
+
+        .modal-image-container {
+            width: 100%;
+            max-height: 400px; /* Limit image height */
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid var(--color-glass-border);
+        }
+
+        .modal-image-container img {
+            width: 100%;
+            display: block;
+        }
+
+        .modal-analysis {
+            max-height: 300px; /* Make analysis scrollable */
+            overflow-y: auto;
+            padding-right: 15px; /* For scrollbar */
+        }
+
+        .modal-analysis h3 {
+            color: var(--color-primary);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-analysis h4 { /* Sub-heading style */
+            color: var(--color-text);
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--color-glass-border);
+            padding-bottom: 5px;
+        }
+
+        .modal-analysis p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+        }
+
+        .modal-analysis ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .modal-analysis li {
+            position: relative;
+            padding-left: 35px; /* More space for emoji */
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+        .modal-analysis li::before {
+            content: '💡'; /* Insight emoji */
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 1.2rem;
+        }
+
+        .modal-close {
+            color: #fff;
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+        .modal-close:hover,
+        .modal-close:focus {
+            color: var(--color-danger);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
         /* --- Responsive Design --- */
         @media (max-width: 900px) {
             #hero {
                 grid-template-columns: 1fr;
             }
+            .modal-content {
+                margin: 5% auto;
+            }
+            .modal-analysis {
+                max-height: 250px;
+            }
         }
-        
+
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             h2 { font-size: 1.8rem; }
-            
+
             .recommendations-grid {
                 grid-template-columns: 1fr;
             }
@@ -360,97 +563,134 @@
 <body>
 
     <header>
-        <h1>U.S. Airline Delay Analysis</h1>
+        <h1>My U.S. Airline Delay Analysis</h1>
     </header>
 
     <div class="container">
-        
+
         <section id="hero">
-            <div class="hero-summary hidden">
-                <h2>U.S. Airline Delays Overview</h2>
+            <div class="hero-summary glass-card hidden">
+                <h2>My Executive Summary</h2>
                 <p>
-                    This infographic presents key statistics and visualizations related to airline delays in the U.S.:
+                    In my analysis of <strong>527,000 U.S. flights</strong>, I found that a significant <strong>88,000 were cancelled</strong>. Here’s a high-level look at what I've uncovered:
                 </p>
                 <ul>
-                    <li><b>Scope:</b> Covers data from 15 airlines, 325 airports, and 527,000 flights.</li>
-                    <li><b>Cancellations:</b> 88,000 flights were cancelled.</li>
-                    <li><b>Average Delay:</b> 14 minutes per flight.</li>
-                    <li><b>Delay Causes:</b> Carrier issues, weather, NAS, security, and late aircraft.</li>
-                    <li><b>Most Affected:</b> Southwest Airlines and American Airlines.</li>
-                    <li><b>Weekly Peaks:</b> Delays are more frequent during midweek, especially on Thursday.</li>
+                    <li><b>Flights I Analyzed:</b> A total of <strong>527,000</strong> flights.</li>
+                    <li><b>Total Cancellations:</b> Of those, <strong>88,000</strong> were cancelled (a 16.7% rate).</li>
+                    <li><b>Average Delay:</b> The average delay I found was <strong>14 minutes</strong> per flight.</li>
+                    <li><b>Primary Delay Causes:</b> My analysis shows the primary causes are <strong>Carrier-related issues</strong> and <strong>weather disruptions</strong>.</li>
+                    <li><b>Most Affected Airlines:</b> The data clearly points to <strong>Southwest</strong> and <strong>American Airlines</strong> as the most affected.</li>
+                    <li><b>Peak Delay Times:</b> I also identified peak delay times on <strong>Midweek (Wed/Thu)</strong> and <strong>Evenings (Fri/Sun)</strong>.</li>
                 </ul>
             </div>
             <div class="dashboard-container hidden">
-                <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Main Dashboard.jpg" alt="Main Airline Delays Dashboard" class="dashboard-img-main">
+                <img src="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Images/Main%20Dashboard.png"
+                     alt="Main Airline Delays Dashboard"
+                     class="dashboard-img-main clickable-dashboard"
+                     data-key="main">
             </div>
         </section>
 
         <section id="dashboards">
-            <h2 class="hidden">Detailed Dashboards</h2>
+            <h2 class="hidden">My Detailed Dashboards</h2>
             <div class="dashboard-grid">
-                <div class="dashboard-item hidden">
-                    <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Airlines.jpg" alt="Airlines Dashboard">
+
+                <div class="dashboard-item glass-card hidden clickable-dashboard" data-key="airlines">
+                    <img src="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Images/Airlines.png" alt="Airlines Dashboard">
                 </div>
-                <div class="dashboard-item hidden">
-                    <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Departure.jpg" alt="Departure Dashboard">
+
+
+                <div class="dashboard-item glass-card hidden clickable-dashboard" data-key="departure">
+                    <img src="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Images/Departure.png" alt="Departure Dashboard">
                 </div>
-                <div class="dashboard-item hidden">
-                    <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Arrival.jpg" alt="Arrival Dashboard">
+
+                <div class="dashboard-item glass-card hidden clickable-dashboard" data-key="arrival">
+                    <img src="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Images/Arrival.png" alt="Arrival Dashboard">
                 </div>
+
             </div>
         </section>
 
+        <section id="powerbi-link" class="hidden">
+             <h2>My Interactive Power BI Dashboard</h2>
+             <p style="margin-bottom: 30px; color: var(--color-text-muted);">This webpage summarizes my findings derived from the Power BI dashboard I created. For a full interactive experience, please download and open my Power BI file using the button below:</p>
+             <a href="https://github.com/RudraX-Github/Visualization-Power-BI-/raw/refs/heads/main/US%202023%20Civil%20Flights,%20delays,%20meteo%20and%20aircrafts/US%202023%20Civil%20Flights,%20delays,%20meteo%20and%20aircrafts.pbix" class="data-link" target="_blank" download>Download Power BI Dashboard (.pbix)</a>
+        </section>
+
+
         <section id="problem">
-            <div class="problem-box hidden">
-                <h2>Problem Statement</h2>
+            <div class="problem-box glass-card hidden">
+                <h2>My Problem Statement</h2>
                 <p>
-                    U.S. airlines are experiencing significant delays, with over 88,000 flights cancelled out of 527,000 analyzed. The delays are primarily caused by carrier-related issues and weather disruptions, disproportionately affecting major airlines like Southwest and American Airlines. Additionally, delays are more frequent during evenings and on Fridays and Sundays, indicating systemic inefficiencies in scheduling and resource allocation.
+                    As I see it, the core problem is that U.S. airlines are facing significant delays, with over 88,000 cancellations in the 527,000 flights I analyzed. From the data, these delays are primarily caused by carrier-related issues and weather. I've also observed this disproportionately affects major airlines like Southwest and American Airlines. The trend that delays are more frequent during evenings and on Fridays and Sundays points me to a clear conclusion: there are systemic inefficiencies in scheduling and resource allocation.
                 </p>
             </div>
         </section>
 
         <section id="recommendations">
-            <h2 class="hidden">Recommendations</h2>
+            <h2 class="hidden">My Recommendations</h2>
             <div class="recommendations-grid">
-                
-                <div class="recommendation-card hidden">
+
+                <div class="recommendation-card glass-card hidden">
                     <h3>1. Optimize Scheduling Algorithms</h3>
                     <ol>
-                        <li>Use machine learning to predict peak delay windows and adjust flight schedules accordingly.</li>
-                        <li>Prioritize early-day departures to reduce cascading delays.</li>
-                    </ol>
-                </div>
-                
-                <div class="recommendation-card hidden">
-                    <h3>2. Improve Carrier Operations</h3>
-                    <ol>
-                        <li>Invest in predictive maintenance and crew management systems to reduce carrier-related delays.</li>
-                        <li>Upgrade aging aircraft fleets (average age: 14 years) to improve reliability.</li>
+                        <li>I recommend we use machine learning to predict peak delay windows (evenings, Fri/Sun) and adjust flight schedules.</li>
+                        <li>We must prioritize and protect early-day departures to reduce the cascading delays I saw in the data.</li>
                     </ol>
                 </div>
 
-                <div class="recommendation-card hidden">
-                    <h3>3. Weather-Responsive Planning</h3>
+                <div class="recommendation-card glass-card hidden">
+                    <h3>2. Improve Carrier Operations</h3>
                     <ol>
-                        <li>Integrate real-time weather analytics into routing and scheduling.</li>
-                        <li>Develop contingency protocols for high-risk weather zones and seasons.</li>
+                        <li>I urge investment in predictive maintenance and crew management systems to reduce carrier-related delays.</li>
+                        <li>We should upgrade aging aircraft fleets (average age: 14 years) to improve reliability.</li>
                     </ol>
                 </div>
-                
-                <div class="recommendation-card hidden">
-                    <h3>4. Passenger-Centric Communication</h3>
+
+                <div class="recommendation-card glass-card hidden">
+                    <h3>3. Adopt Weather-Responsive Planning</h3>
                     <ol>
-                        <li>Enhance delay notifications and rebooking systems to reduce passenger frustration.</li>
-                        <li>Offer incentives or flexible options during high-delay periods (e.g., weekends).</li>
+                        <li>I suggest we integrate real-time weather analytics directly into our routing and scheduling.</li>
+                        <li>We also need to develop contingency protocols, like pre-cancelling flights, for high-risk weather zones.</li>
+                    </ol>
+                </div>
+
+                <div class="recommendation-card glass-card hidden">
+                    <h3>4. Enhance Passenger Communication</h3>
+                    <ol>
+                        <li>I believe we must enhance delay notifications and automate rebooking systems to reduce passenger frustration.</li>
+                        <li>We can also offer flexible options or incentives during known high-delay periods.</li>
                     </ol>
                 </div>
 
             </div>
         </section>
-        
+
+        <section id="projections" class="hidden">
+            <h2>Qualitative Impact of My Recommendations 📊</h2>
+            <div class="projection-card glass-card hidden">
+                <h3>Targeted Impact of My Recommendations</h3>
+                <p>While I cannot calculate exact percentages without the full data, I can logically project the impact of my recommendations on the specific delay causes I identified in the pie chart. Here is the logical order of impact:</p>
+                <ol>
+                    <li>
+                        <strong>Targeting Late Aircraft and NAS Delays:</strong> My first recommendation (Optimize Scheduling) is designed to break the cascading chain. By protecting morning flights, we would <strong>directly reduce</strong> the number of Late Aircraft delays. By de-conflicting schedules, we would also <strong>lower NAS delays</strong>.
+                    </li>
+                    <li>
+                        <strong>Targeting Carrier Delays:</strong> My second recommendation (Improve Carrier Operations) directly addresses the largest cause of delays. Investing in maintenance and crew systems will logically lead to a <strong>significant reduction</strong> in this category.
+                    </li>
+                    <li>
+                        <strong>Managing Weather Delays:</strong> I know we cannot stop weather, but my third recommendation (Weather-Responsive Planning) will <strong>mitigate its impact</strong> by moving from reactive delays to proactive cancellations.
+                    </li>
+                    <li>
+                        <strong>Improving Passenger Satisfaction:</strong> My fourth recommendation (Enhance Communication) targets the passenger experience. While it may not reduce delay minutes, it will <strong>drastically reduce passenger frustration</strong>, protecting brand loyalty.
+                    </li>
+                </ol>
+            </div>
+        </section>
+
         <section id="data-dictionary" class="hidden">
             <h2>Data Dictionary</h2>
-            
+
             <details>
                 <summary>Flights_Dataset.csv</summary>
                 <div class="dictionary-content">
@@ -497,8 +737,8 @@
                             <tr><td>Delay_Carrier</td><td>Delay time attributed to carrier issues.</td><td>10</td></tr>
                             <tr><td>Delay_Weather</td><td>Delay time attributed to weather issues.</td><td>5</td></tr>
                             <tr><td>Delay_NAS</td><td>Delay time attributed to National Airspace System.</td><td>3</td></tr>
-                            <tr><td>Delay_Security</td><td>Delay time attributed to security issues.</td><td>2D</td></tr>
-                            <tr><td>Delay_LastAircraft</td><td>Delay time attributed to the previous aircraft.</td><td>8</td></tr>
+                            <tr><td>Delay_Security</td><td>Delay time attributed to security issues.</td><td>2</td></tr>
+                            <tr><td>Delay_LastAircraft</td><td>Delay time attributed to issues with the previous aircraft.</td><td>8</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -546,35 +786,245 @@
         </section>
 
         <section id="downloads" class="hidden">
-            <h2>Download Data Sources</h2>
+            <h2>Download My Data Sources</h2>
             <div class="data-links">
-                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/Flights_Dataset.csv" class="data-link" download>Flights_Dataset.csv</a>
-                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/Cancelled_Diverted_2023.csv" class="data-link" download>Cancelled_Diverted_2023.csv</a>
-                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/weather_meteo_by_airport.csv" class="data-link" download>weather_meteo_by_airport.csv</a>
-                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/airports_geolocation.csv" class="data-link" download>airports_geolocation.csv</a>
+                <a href="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Data%20files/Flights_Dataset.csv" class="data-link" download>Flights_Dataset.csv</a>
+                <a href="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Data%20files/Cancelled_Diverted_2023.csv" class="data-link" download>Cancelled_Diverted_2023.csv</a>
+                <a href="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Data%20files/weather_meteo_by_airport.csv" class="data-link" download>weather_meteo_by_airport.csv</a>
+                <a href="https://raw.githubusercontent.com/RudraX-Github/Visualization-Power-BI-/main/US%202023%20Civil%20Flights%2C%20delays%2C%20meteo%20and%20aircrafts/Data%20files/airports_geolocation.csv" class="data-link" download>airports_geolocation.csv</a>
             </div>
+             <p class="data-source-note hidden">
+                Note: The original dataset for this analysis was sourced from Kaggle:
+                <a href="https://www.kaggle.com/datasets/bordanova/2023-us-civil-flights-delay-meteo-and-aircraft" target="_blank">
+                    2023 US Civil Flights, Delay, Meteo and Aircrafts
+                </a>.
+             </p>
         </section>
 
     </div>
 
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-image-container">
+                <img id="modalImage" src="" alt="Detailed Dashboard">
+            </div>
+            <div id="modalAnalysisText" class="modal-analysis">
+                </div>
+        </div>
+    </div>
+
+    <div id="modal-text-storage" style="display: none;">
+
+        <div id="analysis-main">
+            <h3>My Analysis of the Main Dashboard</h3>
+            <p>When I look at this dashboard, I get the high-level summary of the entire system. Here is what it's informing me:</p>
+
+            <h4>Key Metrics</h4>
+            <ul>
+                <li>
+                    This area displays the project's core numbers: <strong>527,000</strong> Total Flights Analyzed, <strong>88,000</strong> Total Cancellations, and <strong>14 minutes</strong> Average Delay. This tells me that 16.7% of all flights in this dataset were cancelled.
+                </li>
+            </ul>
+
+            <h4>Delay Causes (Pie Chart)</h4>
+            <ul>
+                <li>
+                    This pie chart is the most critical for me. It breaks down the <strong>reasons</strong> for delays.
+                </li>
+                <li>
+                    I see that <strong>Carrier Issues</strong> (maintenance, crew, etc.) and <strong>Weather</strong> are the two largest slices, which identifies them as the primary problems.
+                </li>
+                <li>
+                    I also see smaller slices for <strong>NAS</strong> (National Aviation System), <strong>Security</strong>, and <strong>Late Aircraft</strong>. That Late Aircraft slice is my first piece of evidence of a cascading problem.
+                </li>
+            </ul>
+
+            <h4>Airlines Affected (Bar Chart)</h4>
+            <ul>
+                <li>
+                    This chart ranks airlines by how many disruptions they experienced.
+                </li>
+                <li>
+                    It visually confirms that <strong>Southwest Airlines</strong> and <strong>American Airlines</strong> are at the top, informing me they are the most impacted carriers.
+                </li>
+            </ul>
+
+            <h4>Delay by Day (Line Chart)</h4>
+            <ul>
+                <li>
+                    This chart shows me the trend of delays over a typical week.
+                </li>
+                <li>
+                    It informs me that delays <strong>peak midweek (Wednesday-Thursday)</strong>. This insight suggests the problem is systemic and operational, not just a result of weekend leisure travel.
+                </li>
+            </ul>
+        </div>
+
+        <div id="analysis-airlines">
+            <h3>My Analysis of the Airlines Dashboard</h3>
+            <p>Here, I drilled down into the performance of individual carriers, providing context for the main dashboard's bar chart.</p>
+
+            <h4>Comparative Performance</h4>
+            <ul>
+                <li>
+                    This visual lets me directly compare the performance of different airlines, including <strong>Alaska Airlines Inc.</strong> and <strong>Allegiant Air</strong>.
+                </li>
+                <li>
+                    I see it ranks airlines by key metrics such as On-Time Percentage, Average Delay Time, or Total Cancellations.
+                </li>
+            </ul>
+
+            <h4>Key Insights</h4>
+            <ul>
+                <li>
+                    The chart's primary function is to inform me <strong>which</strong> airlines are performing better or worse than the average.
+                </li>
+                <li>
+                    It visually proves that performance is not uniform. The data for <strong>Southwest</strong> and <strong>American</strong> would likely show significantly worse metrics, confirming they are disproportionately affected.
+                </li>
+                <li>
+                    This view helps me isolate the problem: it is not just an industry-wide issue, but one that is heavily concentrated in a few specific carriers.
+                </li>
+            </ul>
+        </div>
+
+        <div id="analysis-departure">
+            <h3>My Analysis of the Departure Dashboard</h3>
+            <p>I focused on this dashboard to see the <strong>source</strong> of delays—where and when they begin. This is where I found the evidence for my Problem Statement.</p>
+
+            <h4>Temporal Analysis (Time of Day)</h4>
+            <ul>
+                <li>
+                    This visual is the source for my claim that delays are <strong>more frequent during evenings</strong>.
+                </li>
+                <li>
+                    I can see a bar or line chart where the delay count is lowest in the morning and rises to a peak in the evening.
+                </li>
+                <li>
+                    This informs me that delays are <strong>cascading</strong>: a small morning delay is not resolved, and it compounds with other delays, leading to a system collapse by evening.
+                </li>
+            </ul>
+
+            <h4>Temporal Analysis (Day of Week)</h4>
+            <ul>
+                <li>
+                    This chart supports my claim that delays are worst on <strong>Fridays and Sundays</strong>.
+                </li>
+                <li>
+                    This tells me that the system is failing to handle peak leisure travel, both on the "getaway" day (Friday) and the "return" day (Sunday).
+                </li>
+            </ul>
+        </div>
+
+        <div id="analysis-arrival">
+            <h3>My Analysis of the Arrival Dashboard</h3>
+            <p>This dashboard shows me the <strong>result</strong> of all preceding delays. It focuses on the final, cumulative impact on the passenger.</p>
+
+            <h4>Analysis of Delay Causes</h4>
+            <ul>
+                <li>
+                    The key visual I'm looking at here is a breakdown of arrival delay reasons.
+                </li>
+                <li>
+                    Compared to the Main Dashboard's pie chart, this chart clearly shows a much <strong>larger portion of delays caused by Late Aircraft</strong>.
+                </li>
+            </ul>
+
+            <h4>Key Insight: Proof of Cascade</h4>
+            <ul>
+                <li>
+                    A large Late Aircraft delay category is my definitive proof of the <strong>cascading effect</strong>.
+                </li>
+                <li>
+                    It informs me that the system's biggest problem is not isolated incidents, but a chain reaction. A flight is late arriving <strong>because</strong> its previous flight was late departing. This visual shows me that compounding problem in its final form.
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
     <footer>
-        <p>&copy; 2025 U.S. Airline Delay Analysis. Blueprint Edition.</p>
+        <p>&copy; 2025 My U.S. Airline Delay Analysis. Professional Edition.</p>
     </footer>
 
     <script>
-        const hiddenElements = document.querySelectorAll('.hidden');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Fade-in-on-scroll Animation ---
+            const hiddenElements = document.querySelectorAll('.hidden');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            hiddenElements.forEach((el) => observer.observe(el));
+
+
+            // --- 2. NEW: Modal Pop-up Logic ---
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalAnalysisText = document.getElementById('modalAnalysisText');
+            const closeModal = document.querySelector('.modal-close');
+
+            // Get all clickable images
+            const clickableImages = document.querySelectorAll('.clickable-dashboard');
+
+            clickableImages.forEach(item => {
+                item.addEventListener('click', (event) => {
+                    // Find the image source, whether they clicked the div or the img inside it
+                    let imgSrc = '';
+                    if (event.target.tagName === 'IMG') {
+                        imgSrc = event.target.src;
+                    } else {
+                        imgSrc = event.currentTarget.querySelector('img').src;
+                    }
+
+                    // Get the key from the data-key attribute
+                    const dataKey = event.currentTarget.dataset.key;
+
+                    // Find the analysis text from the hidden storage
+                    const analysisElement = document.getElementById(`analysis-${dataKey}`);
+
+                    if (analysisElement) {
+                        // Populate the modal
+                        modalImage.src = imgSrc;
+                        // Inject the detailed HTML
+                        modalAnalysisText.innerHTML = analysisElement.innerHTML;
+
+                        // Show the modal
+                        modal.style.display = 'block';
+                    } else {
+                        console.error('Could not find analysis text for key:', dataKey);
+                    }
+                });
+            });
+
+            // Function to close the modal
+            const hideModal = () => {
+                modal.style.display = 'none';
+                // Clear content to prevent flash
+                modalImage.src = '';
+                modalAnalysisText.innerHTML = '';
+            };
+
+            // Close when clicking the 'x'
+            closeModal.addEventListener('click', hideModal);
+
+            // Close when clicking outside the modal content
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    hideModal();
                 }
             });
-        }, {
-            threshold: 0.1 // Trigger when 10% of the element is visible
+
         });
-        
-        hiddenElements.forEach((el) => observer.observe(el));
     </script>
 
 </body>
