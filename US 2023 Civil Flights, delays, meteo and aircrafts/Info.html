@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>U.S. Airline Delay Analysis - Blueprint Edition</title>
+    <style>
+        /* --- Animation Keyframes --- */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glowBorder {
+            0% { box-shadow: 0 2px 10px rgba(0, 229, 255, 0.3); }
+            50% { box-shadow: 0 2px 25px rgba(0, 229, 255, 0.7); }
+            100% { box-shadow: 0 2px 10px rgba(0, 229, 255, 0.3); }
+        }
+
+        /* --- Root Variables: "Blueprint" Theme --- */
+        :root {
+            --color-primary: #00e5ff; /* Electric Blue */
+            --color-danger: #ff4d4d;  /* Bright Red */
+            --color-bg: #0a192f;       /* Deep Navy */
+            --color-bg-light: #172a45; /* Lighter Navy/Blueprint */
+            --color-text: #e6f1ff;     /* Off-white */
+            --color-text-muted: #a8b2d1; /* Muted Text */
+            --blueprint-grid: #172a45; /* Grid line color */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--color-text);
+            line-height: 1.7;
+            
+            /* Blueprint Grid Background Illusion */
+            background-color: var(--color-bg);
+            background-image: 
+                linear-gradient(var(--blueprint-grid) 1px, transparent 1px), 
+                linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* --- Header & Glassmorphism + Glow --- */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            z-index: 1000;
+            
+            background: rgba(10, 25, 47, 0.8); /* Darker glass */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            
+            border-bottom: 1px solid var(--color-primary);
+            animation: glowBorder 3s linear infinite;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.7);
+        }
+
+        /* --- Main Content Container --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px dashed var(--color-bg-light); /* Dashed border for blueprint feel */
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--color-text);
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 10px;
+            color: var(--color-text-muted);
+        }
+        li b {
+            color: var(--color-text);
+        }
+
+        /* --- Hero Section (Summary & Main Dashboard) --- */
+        #hero {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .hero-summary {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+        }
+        .hero-summary ul {
+            list-style: '✈️ ';
+            padding-left: 30px;
+        }
+
+        .dashboard-container {
+            perspective: 1000px;
+        }
+        
+        .dashboard-img-main {
+            width: 100%;
+            border-radius: 12px;
+            border: 2px solid var(--color-bg-light);
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+        }
+        
+        /* "Glow" Hover Illusion */
+        .dashboard-img-main:hover {
+            transform: scale(1.03);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.5), 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+
+        /* --- Detailed Dashboards Gallery --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .dashboard-item {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--color-bg-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .dashboard-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
+        .dashboard-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- Problem Statement Section --- */
+        .problem-box {
+            background: rgba(255, 77, 77, 0.05); /* Red tint */
+            border: 1px solid var(--color-danger);
+            border-left: 5px solid var(--color-danger);
+            padding: 30px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            /* Inset shadow illusion */
+            box-shadow: inset 0 0 15px rgba(255, 77, 77, 0.15);
+        }
+        .problem-box h2 {
+            color: var(--color-danger);
+            text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        /* --- Recommendations Section (Grid & Cards) --- */
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .recommendation-card {
+            background: var(--color-bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #304a6e;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 229, 255, 0.4);
+        }
+
+        .recommendation-card h3 {
+            color: var(--color-primary);
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+        }
+        .recommendation-card ol {
+            list-style-type: '💡 ';
+            padding-left: 30px;
+        }
+
+        /* --- Data Dictionary (Accordion) --- */
+        details {
+            background: var(--color-bg-light);
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #304a6e;
+            transition: all 0.3s ease;
+        }
+        details:hover {
+            border-color: var(--color-primary);
+        }
+        
+        summary {
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: var(--color-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        summary::after {
+            content: '+';
+            font-size: 1.8rem;
+            transition: transform 0.2s;
+            color: var(--color-primary);
+        }
+        
+        details[open] summary {
+            color: var(--color-primary);
+        }
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+        details[open] {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        }
+        
+        .dictionary-content {
+            padding: 0 20px 20px 20px;
+            overflow-x: auto; /* For responsive tables */
+        }
+        
+        .dictionary-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .dictionary-content th, 
+        .dictionary-content td {
+            padding: 12px 15px;
+            border: 1px solid #304a6e;
+            text-align: left;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+        }
+        .dictionary-content th {
+            background-color: #0a192f;
+            color: var(--color-primary);
+        }
+        .dictionary-content td:first-child {
+            font-weight: 600;
+            color: var(--color-text);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* --- Data Download Section --- */
+        .data-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        /* "Ghost Button" Illusion */
+        .data-link {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--color-primary);
+            background: transparent;
+            border: 2px solid var(--color-primary);
+            padding: 15px 30px;
+            border-radius: 50px; /* Pill shape */
+            transition: all 0.3s ease;
+        }
+        
+        .data-link:hover {
+            background: var(--color-primary);
+            color: var(--color-bg);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+        }
+        
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            border-top: 1px dashed var(--color-bg-light);
+        }
+        
+        /* --- Animation "Illusion" for Scroll --- */
+        .hidden {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            #hero {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>U.S. Airline Delay Analysis</h1>
+    </header>
+
+    <div class="container">
+        
+        <section id="hero">
+            <div class="hero-summary hidden">
+                <h2>U.S. Airline Delays Overview</h2>
+                <p>
+                    This infographic presents key statistics and visualizations related to airline delays in the U.S.:
+                </p>
+                <ul>
+                    <li><b>Scope:</b> Covers data from 15 airlines, 325 airports, and 527,000 flights.</li>
+                    <li><b>Cancellations:</b> 88,000 flights were cancelled.</li>
+                    <li><b>Average Delay:</b> 14 minutes per flight.</li>
+                    <li><b>Delay Causes:</b> Carrier issues, weather, NAS, security, and late aircraft.</li>
+                    <li><b>Most Affected:</b> Southwest Airlines and American Airlines.</li>
+                    <li><b>Weekly Peaks:</b> Delays are more frequent during midweek, especially on Thursday.</li>
+                </ul>
+            </div>
+            <div class="dashboard-container hidden">
+                <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Main Dashboard.jpg" alt="Main Airline Delays Dashboard" class="dashboard-img-main">
+            </div>
+        </section>
+
+        <section id="dashboards">
+            <h2 class="hidden">Detailed Dashboards</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-item hidden">
+                    <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Airlines.jpg" alt="Airlines Dashboard">
+                </div>
+                <div class="dashboard-item hidden">
+                    <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Departure.jpg" alt="Departure Dashboard">
+                </div>
+                <div class="dashboard-item hidden">
+                    <img src="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Images/Arrival.jpg" alt="Arrival Dashboard">
+                </div>
+            </div>
+        </section>
+
+        <section id="problem">
+            <div class="problem-box hidden">
+                <h2>Problem Statement</h2>
+                <p>
+                    U.S. airlines are experiencing significant delays, with over 88,000 flights cancelled out of 527,000 analyzed. The delays are primarily caused by carrier-related issues and weather disruptions, disproportionately affecting major airlines like Southwest and American Airlines. Additionally, delays are more frequent during evenings and on Fridays and Sundays, indicating systemic inefficiencies in scheduling and resource allocation.
+                </p>
+            </div>
+        </section>
+
+        <section id="recommendations">
+            <h2 class="hidden">Recommendations</h2>
+            <div class="recommendations-grid">
+                
+                <div class="recommendation-card hidden">
+                    <h3>1. Optimize Scheduling Algorithms</h3>
+                    <ol>
+                        <li>Use machine learning to predict peak delay windows and adjust flight schedules accordingly.</li>
+                        <li>Prioritize early-day departures to reduce cascading delays.</li>
+                    </ol>
+                </div>
+                
+                <div class="recommendation-card hidden">
+                    <h3>2. Improve Carrier Operations</h3>
+                    <ol>
+                        <li>Invest in predictive maintenance and crew management systems to reduce carrier-related delays.</li>
+                        <li>Upgrade aging aircraft fleets (average age: 14 years) to improve reliability.</li>
+                    </ol>
+                </div>
+
+                <div class="recommendation-card hidden">
+                    <h3>3. Weather-Responsive Planning</h3>
+                    <ol>
+                        <li>Integrate real-time weather analytics into routing and scheduling.</li>
+                        <li>Develop contingency protocols for high-risk weather zones and seasons.</li>
+                    </ol>
+                </div>
+                
+                <div class="recommendation-card hidden">
+                    <h3>4. Passenger-Centric Communication</h3>
+                    <ol>
+                        <li>Enhance delay notifications and rebooking systems to reduce passenger frustration.</li>
+                        <li>Offer incentives or flexible options during high-delay periods (e.g., weekends).</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+        
+        <section id="data-dictionary" class="hidden">
+            <h2>Data Dictionary</h2>
+            
+            <details>
+                <summary>Flights_Dataset.csv</summary>
+                <div class="dictionary-content">
+                    <table>
+                        <thead><tr><th>Column</th><th>Description</th><th>Example</th></tr></thead>
+                        <tbody>
+                            <tr><td>FlightDate</td><td>The date on which the flight took place.</td><td>01-01-2023</td></tr>
+                            <tr><td>Tail_Number</td><td>The unique identifier or registration number of the aircraft.</td><td>N906XJ</td></tr>
+                            <tr><td>Manufacturer</td><td>The company that manufactured the aircraft.</td><td>CANADAIR REGIONAL JET</td></tr>
+                            <tr><td>Model</td><td>The specific model of the aircraft.</td><td>CRJ</td></tr>
+                            <tr><td>Aircraft_Age</td><td>The age of the aircraft in years.</td><td>17</td></tr>
+                            <tr><td>Avg. Passenger Capacity</td><td>The average number of passengers that the aircraft can carry.</td><td>75</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details>
+                <summary>Cancelled_Diverted_2023.csv</summary>
+                <div class="dictionary-content">
+                    <table>
+                        <thead><tr><th>Column</th><th>Description</th><th>Example</th></tr></thead>
+                        <tbody>
+                            <tr><td>FlightDate</td><td>The date on which the flight occurred.</td><td>01-01-2023</td></tr>
+                            <tr><td>Day_Of_Week</td><td>The day of the week the flight took place.</td><td>Monday</td></tr>
+                            <tr><td>Airline</td><td>The airline operating the flight.</td><td>Alaska Airlines Inc.</td></tr>
+                            <tr><td>Tail_Number</td><td>The unique identifier of the aircraft.</td><td>N906XJ</td></tr>
+                            <tr><td>Cancelled</td><td>Indicates whether the flight was cancelled.</td><td>Yes/No</td></tr>
+                            <tr><td>Diverted</td><td>Indicates whether the flight was diverted.</td><td>Yes/No</td></tr>
+                            <tr><td>Dep_IATA_CODE</td><td>IATA code for the departure airport.</td><td>LAX</td></tr>
+                            <tr><td>Dep_CityName</td><td>City of the departure airport.</td><td>Los Angeles</td></tr>
+                            <tr><td>Dep_State</td><td>State of the departure airport.</td><td>CA</td></tr>
+                            <tr><td>DepTime_label</td><td>The scheduled departure time.</td><td>14:30</td></tr>
+                            <tr><td>Dep_Delay</td><td>Departure delay time in minutes.</td><td>15</td></tr>
+                            <tr><td>Dep_Delay_Tag</td><td>Categorical tag for departure status.</td><td>Delayed</td></tr>
+                            <tr><td>Dep_Delay_Type</td><td>The cause of the departure delay.</td><td>Weather</td></tr>
+                            <tr><td>Arr_IATA_CODE</td><td>IATA code for the arrival airport.</td><td>JFK</td></tr>
+                            <tr><td>Arr_CityName</td><td>City of the arrival airport.</td><td>New York</td></tr>
+                            <tr><td>Arr_State</td><td>State of the arrival airport.</td><td>NY</td></tr>
+                            <tr><td>Arr_Delay</td><td>Arrival delay time in minutes.</td><td>20</td></tr>
+                            <tr><td>Arr_Delay_Type</td><td>The cause of the arrival delay.</td><td>Carrier</td></tr>
+                            <tr><td>Flight_Duration</td><td>Duration of the flight in minutes.</td><td>300</td></tr>
+                            <tr><td>Distance_type</td><td>Flight distance type (short, medium, long-haul).</td><td>Long-haul</td></tr>
+                            <tr><td>Delay_Carrier</td><td>Delay time attributed to carrier issues.</td><td>10</td></tr>
+                            <tr><td>Delay_Weather</td><td>Delay time attributed to weather issues.</td><td>5</td></tr>
+                            <tr><td>Delay_NAS</td><td>Delay time attributed to National Airspace System.</td><td>3</td></tr>
+                            <tr><td>Delay_Security</td><td>Delay time attributed to security issues.</td><td>2D</td></tr>
+                            <tr><td>Delay_LastAircraft</td><td>Delay time attributed to the previous aircraft.</td><td>8</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details>
+                <summary>weather_meteo_by_airport.csv</summary>
+                <div class="dictionary-content">
+                    <table>
+                        <thead><tr><th>Column</th><th>Description</th><th>Example</th></tr></thead>
+                        <tbody>
+                            <tr><td>FlightDate</td><td>The date on which the flight occurred.</td><td>01-01-2023</td></tr>
+                            <tr><td>tavg</td><td>The average temperature on the flight date.</td><td>15°C</td></tr>
+                            <tr><td>tmin</td><td>The minimum temperature on the flight date.</td><td>10°C</td></tr>
+                            <tr><td>tmax</td><td>The maximum temperature on the flight date.</td><td>20°C</td></tr>
+                            <tr><td>prcp</td><td>The precipitation level (mm or inches).</td><td>5 mm</td></tr>
+                            <tr><td>snow</td><td>The snowfall amount (mm or inches).</td><td>0 mm</td></tr>
+                            <tr><td>wdir</td><td>The wind direction (degrees from north).</td><td>180°</td></tr>
+                            <tr><td>wspd</td><td>The wind speed (km/h or mph).</td><td>15 km/h</td></tr>
+                            <tr><td>pres</td><td>The atmospheric pressure (hPa or inHg).</td><td>1013 hPa</td></tr>
+                            <tr><td>Arr_Airport ID</td><td>The unique identifier for the arrival airport.</td><td>JFK</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details>
+                <summary>airports_geolocation.csv</summary>
+                <div class="dictionary-content">
+                    <table>
+                        <thead><tr><th>Column</th><th>Description</th><th>Example</th></tr></thead>
+                        <tbody>
+                            <tr><td>IATA_CODE</td><td>IATA code for the airport.</td><td>LAX</td></tr>
+                            <tr><td>AIRPORT</td><td>The name of the airport.</td><td>Los Angeles International Airport</td></tr>
+                            <tr><td>CITY</td><td>The city where the airport is located.</td><td>Los Angeles</td></tr>
+                            <tr><td>STATE</td><td>The state where the airport is located.</td><td>CA</td></tr>
+                            <tr><td>COUNTRY</td><td>The country where the airport is located.</td><td>USA</td></tr>
+                            <tr><td>LATITUDE</td><td>The geographic latitude coordinate.</td><td>33.9416° N</td></tr>
+                            <tr><td>LONGITUDE</td><td>The geographic longitude coordinate.</td><td>118.4085° W</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+        </section>
+
+        <section id="downloads" class="hidden">
+            <h2>Download Data Sources</h2>
+            <div class="data-links">
+                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/Flights_Dataset.csv" class="data-link" download>Flights_Dataset.csv</a>
+                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/Cancelled_Diverted_2023.csv" class="data-link" download>Cancelled_Diverted_2023.csv</a>
+                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/weather_meteo_by_airport.csv" class="data-link" download>weather_meteo_by_airport.csv</a>
+                <a href="file:///D:/Git_HUB/Visualization-Power-BI-/US 2023 Civil Flights, delays, meteo and aircrafts/Data files/airports_geolocation.csv" class="data-link" download>airports_geolocation.csv</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 U.S. Airline Delay Analysis. Blueprint Edition.</p>
+    </footer>
+
+    <script>
+        const hiddenElements = document.querySelectorAll('.hidden');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+        
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>

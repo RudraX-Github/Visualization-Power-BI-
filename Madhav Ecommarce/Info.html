@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhav Ecommerce - Advanced Analysis</title>
+    <style>
+        /* --- Global Styles & Animated Background --- */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        :root {
+            --color-primary: #60a5fa; /* Light Blue */
+            --color-danger: #f87171;  /* Red */
+            --color-success: #4ade80; /* Green */
+            --color-bg: #0f172a;       /* Dark Blue/Slate */
+            --color-bg-light: #1e293b; /* Lighter Slate */
+            --color-text: #e2e8f0;     /* Light Gray */
+            --color-text-muted: #94a3b8; /* Muted Gray */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--color-bg);
+            background: linear-gradient(-45deg, #0f172a, #131b31, #0f172a, #1e293b);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+
+        /* --- Header & Glassmorphism "Illusion" --- */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            z-index: 1000;
+            
+            /* The Glassmorphism Effect */
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+        }
+
+        /* --- Main Content Container --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--color-bg-light);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+
+        /* --- Hero Section (Summary & Dashboard) --- */
+        #hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .hero-summary {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+        }
+
+        .dashboard-container {
+            perspective: 1000px; /* For 3D hover illusion */
+        }
+        
+        .dashboard-img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--color-bg-light);
+            transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+        }
+        
+        /* 3D Tilt "Illusion" on Hover */
+        .dashboard-img:hover {
+            transform: scale(1.05) rotateX(5deg) rotateY(-5deg);
+            box-shadow: 0 20px 40px rgba(96, 165, 250, 0.2);
+        }
+
+        /* --- Problem Statement Section --- */
+        .problem-box {
+            background: rgba(248, 113, 113, 0.05); /* Red tint */
+            border: 1px solid var(--color-danger);
+            border-left: 5px solid var(--color-danger);
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .problem-box h3 {
+            color: var(--color-danger);
+            margin-top: 0;
+        }
+        .problem-box ul {
+            list-style-type: '❌ '; /* Creative list bullet */
+            padding-left: 30px;
+        }
+
+        /* --- Solutions Section (Grid & Cards) --- */
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .solution-card {
+            background: var(--color-bg-light);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            
+            /* Card "Pop" Illusion on Hover */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(96, 165, 250, 0.15);
+        }
+
+        .solution-card h3 {
+            color: var(--color-success);
+        }
+        .solution-card ol {
+            list-style-type: '✅ '; /* Creative list bullet */
+            padding-left: 30px;
+        }
+
+        /* --- Data Download Section --- */
+        .data-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .data-link {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #fff;
+            background: var(--color-primary);
+            padding: 15px 30px;
+            border-radius: 50px; /* Pill shape */
+            transition: all 0.3s ease;
+        }
+        
+        .data-link:hover {
+            background: #3b82f6; /* Darker blue */
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(96, 165, 250, 0.3);
+        }
+        
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+        
+        /* --- Animation "Illusion" for Scroll --- */
+        
+        /* Class to hide elements before they scroll into view */
+        .hidden {
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        /* Class to show elements when they are in view */
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation for card children */
+        .solution-card.show {
+            transition-delay: 100ms;
+        }
+        .solution-card:nth-child(even).show {
+            transition-delay: 200ms;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            #hero {
+                grid-template-columns: 1fr;
+            }
+            .dashboard-img:hover {
+                /* Simplify animation for mobile */
+                transform: scale(1.02);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.8rem; }
+            
+            .solutions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Madhav Ecommerce Analysis</h1>
+    </header>
+
+    <div class="container">
+        
+        <section id="hero">
+            <div class="hero-summary hidden"> <h2>Executive Summary</h2>
+                <p>
+                    Strong revenue and AOV driven by clothing and key customers. Maharashtra leads in sales; Delhi and Gujarat underperform. COD dominates payments; UPI is rising. January and March are peak profit months. Printers and bookcases are top profit generators.
+                </p>
+            </div>
+            <div class="dashboard-container hidden"> <img src="Dashboard.png" alt="Madhav Ecommerce Sales Dashboard" class="dashboard-img">
+            </div>
+        </section>
+
+        <section id="problem">
+            <div class="problem-box hidden"> <h2>Problem Statement</h2>
+                <p>
+                    Despite achieving strong overall sales and high average order value, Madhav Ecommerce faces regional imbalance, product concentration, and seasonal profit volatility.
+                </p>
+                <h3>Key Challenges Include:</h3>
+                <ul>
+                    <li>Underperformance in states like Delhi and Gujarat.</li>
+                    <li>Heavy reliance on clothing as the primary product category.</li>
+                    <li>Cash on Delivery (COD) dominating payment methods, which may increase operational risk.</li>
+                    <li>Profit dips in months like April and June, indicating poor seasonal planning.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="solutions">
+            <h2>Proposed Solutions</h2>
+            <div class="solutions-grid">
+                
+                <div class="solution-card hidden"> <h3>1. Regional Sales Optimization</h3>
+                    <ol>
+                        <li>Launch localized marketing campaigns in Delhi and Gujarat.</li>
+                        <li>Offer region-specific discounts or bundles to attract new customers.</li>
+                        <li>Partner with local influencers or delivery services to improve reach and trust.</li>
+                    </ol>
+                </div>
+                
+                <div class="solution-card hidden"> <h3>2. Product Diversification</h3>
+                    <ol>
+                        <li>Expand profitable sub-categories like printers, bookcases, and storage.</li>
+                        <li>Introduce seasonal collections or limited-time categories to test demand.</li>
+                        <li>Use customer purchase history to recommend cross-category products.</li>
+                    </ol>
+                </div>
+
+                <div class="solution-card hidden"> <h3>3. Payment Strategy Enhancement</h3>
+                    <ol>
+                        <li>Incentivize UPI and digital payments with cashback or loyalty points.</li>
+                        <li>Gradually reduce COD dependency to streamline logistics and reduce returns.</li>
+                    </ol>
+                </div>
+                
+                <div class="solution-card hidden"> <h3>4. Seasonal Profit Planning</h3>
+                    <ol>
+                        <li>Run targeted promotions in April and June to boost engagement.</li>
+                        <li>Align inventory and ad spend with peak months like January and March.</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+        
+        <section id="data" class="hidden"> <h2>Data Sources</h2>
+            <div class="data-links">
+                <a href="Orders.csv" class="data-link" download>Download Orders.csv</a>
+                <a href="Details.csv" class="data-link" download>Download Details.csv</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Madhav Ecommerce. Advanced Analysis Report.</p>
+    </footer>
+
+    <script>
+        // Select all elements with the class "hidden"
+        const hiddenElements = document.querySelectorAll('.hidden');
+
+        // Set up the Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                // If the element is intersecting (in view)
+                if (entry.isIntersecting) {
+                    // Add the "show" class to trigger the animation
+                    entry.target.classList.add('show');
+                } 
+                // Optional: To make it re-animate every time you scroll by
+                // else {
+                //     entry.target.classList.remove('show');
+                // }
+            });
+        }, {
+            threshold: 0.15 // Trigger when 15% of the element is visible
+        });
+
+        // Tell the observer to watch each of the "hidden" elements
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>
